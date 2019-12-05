@@ -10,11 +10,24 @@ class CreateProfilesTable extends Migration
      * Run the migrations.
      *
      * @return void
+     *
+     *
      */
     public function up()
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->bigIncrements('id');
+
+            $table->string('first_name');
+            $table->string('last_name');
+
+            $table->dateTime('birthday');
+            $table->integer('mobile');
+
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+
+
             $table->timestamps();
         });
     }

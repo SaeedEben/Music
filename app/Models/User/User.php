@@ -2,10 +2,26 @@
 
 namespace App\Models\User;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * Class User
+ *
+ * @package   App\Models\User
+ *
+ * @property int    $id
+ *
+ * @property string $username
+ * @property string $password
+ *
+ *
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ *
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -48,7 +64,7 @@ class User extends Authenticatable
 
     public function profile()
     {
-        return $this->belongsTo(Profile::class);
+        return $this->hasOne(Profile::class);
     }
 }
 
