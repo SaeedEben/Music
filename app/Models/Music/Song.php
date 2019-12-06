@@ -69,4 +69,9 @@ class Song extends Model
     {
         return $this->belongsToMany(Artist::class);
     }
+
+    public function likes()
+    {
+        return $this->morphMany(Like::class , 'likable');
+    }
 }

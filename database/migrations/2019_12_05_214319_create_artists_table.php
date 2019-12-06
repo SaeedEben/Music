@@ -22,14 +22,6 @@ class CreateArtistsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('song_artist', function (Blueprint $table) {
-            $table->bigInteger('song_id')->unsigned();
-            $table->foreign('song_id')->references('id')->on('songs')->onDelete('cascade');
-
-            $table->bigInteger('artist_id')->unsigned();
-            $table->foreign('artist_id')->references('id')->on('artists')->onDelete('cascade');
-
-        });
     }
 
 

@@ -18,7 +18,7 @@ class CreateVideosTable extends Migration
 
             $table->string('name');
             $table->timestamp('release_at');
-            $table->timestamp('duration');
+            $table->timestamp('duration')->nullable();
 
             $table->timestamps();
         });
