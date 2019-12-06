@@ -2,6 +2,7 @@
 
 namespace App\Models\Music;
 
+use App\Models\Feature\Playlist;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -63,6 +64,11 @@ class Song extends Model
     public function artists()
     {
         return $this->belongsToMany(Artist::class);
+    }
+
+    public function playlists()
+    {
+        return $this->belongsToMany(Playlist::class);
     }
 
     // <<<<<<<<<<<<<<<<<<< PolyMorph Relations >>>>>>>>>>>>>>>>>>>>>>>
