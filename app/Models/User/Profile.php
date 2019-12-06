@@ -18,11 +18,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property \DateTime $birthday
  * @property int       $mobile
  *
- * @property User[]    $user
- * @property int       $user_id
- *
  * @property Carbon    $created_at
  * @property Carbon    $updated_at
+ *
+ *
+ * @property User $user
  */
 class Profile extends Model
 {
@@ -37,7 +37,7 @@ class Profile extends Model
 
     // <<<<<<<<<<<<<<<<<<< Relations >>>>>>>>>>>>>>>>>>>>>>>
 
-    public function s()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

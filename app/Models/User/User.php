@@ -12,14 +12,16 @@ use Illuminate\Notifications\Notifiable;
  *
  * @package   App\Models\User
  *
- * @property int    $id
+ * @property int          $id
  *
- * @property string $username
- * @property string $password
+ * @property string       $username
+ * @property-write string $password
  *
  *
- * @property Carbon $created_at
- * @property Carbon $updated_at
+ * @property Carbon       $created_at
+ * @property Carbon       $updated_at
+ *
+ * @property Profile $profile
  *
  */
 class User extends Authenticatable
