@@ -76,16 +76,17 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param Category $category
      *
      * @return \Illuminate\Http\Response|array
+     * @throws \Exception
      */
     public function destroy(Category $category)
     {
         $category->delete();
         return [
             'success' => true,
-            'message' => 'اطلاعات مورد نظر شما حذف شد'
+            'message' => 'اطلاعات مورد نظر شما حذف شد',
         ];
     }
 }
