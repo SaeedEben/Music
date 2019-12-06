@@ -17,7 +17,7 @@ class CreateHistoriesTable extends Migration
             $table->bigIncrements('id');
 
             $table->timestamp('start_at');
-            $table->timestamp('end_at');
+            $table->timestamp('end_at')->nullable();
 
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

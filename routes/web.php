@@ -14,7 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::group(['namespace' => 'Auth'] , function (){
+    Route::post('/login' , 'LoginController@login');
+    Route::post('/logout' , 'LoginController@logout');
+});
 
-Route::group(['namespace' => 'Music' , 'prefix' => 'music'] , function (){
+Route::group(['namespace' => 'Music' , 'prefix' => 'music' , 'middleware' => 'auth'] , function (){
     Route::apiResource('/genre' , 'GenreController');
 });

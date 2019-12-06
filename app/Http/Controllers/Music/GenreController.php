@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Music;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Music\Genre\StoreGenreRequest;
+use App\Http\Requests\Music\Genre\UpdateGenreRequest;
 use App\Http\Resources\Music\Genre\GenreIndexResource;
 use App\Http\Resources\Music\Genre\GenreShowResource;
 use App\Models\Music\Genre;
@@ -56,25 +57,35 @@ class GenreController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int                      $id
+     * @param UpdateGenreRequest $request
+     * @param Genre              $genre
      *
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function update(Request $request, $id)
+    public function update(UpdateGenreRequest $request, Genre $genre)
     {
-        //
+        $genre->fill($request->all());
+        $genre->save();
+        return[
+            'success' => true,
+            'message' => 'ژانر مورد نظر به روزرسانی شد'
+        ];
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param Genre $genre
      *
-     * @return \Illuminate\Http\Response
+     * @return void|array
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Genre $genre)
     {
-        //
+        $genre->delete();
+        return[
+            'success' => true,
+            'message' => 'ژانر با موفقیت حذف شد'
+        ];
     }
 }

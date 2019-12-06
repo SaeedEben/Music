@@ -2,17 +2,9 @@
 
 namespace App\Http\Requests\Music\Genre;
 
-use App\Models\Music\Genre;
 use Illuminate\Foundation\Http\FormRequest;
 
-/**
- * Class StoreGenreRequest
- *
- * @package App\Http\Requests\Music\Genre
- *
- * @mixin Genre
- */
-class StoreGenreRequest extends FormRequest
+class UpdateGenreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,7 +24,7 @@ class StoreGenreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:10',
+            'name' => 'required|max:10'
         ];
     }
 }
