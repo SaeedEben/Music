@@ -21,4 +21,5 @@ Route::group(['namespace' => 'Auth'] , function (){
 
 Route::group(['namespace' => 'Music' , 'prefix' => 'music' , 'middleware' => 'auth'] , function (){
     Route::apiResource('/genre' , 'GenreController');
+    Route::apiResource('/category' , 'CategoryController');
 });
