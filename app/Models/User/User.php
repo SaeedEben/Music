@@ -2,6 +2,8 @@
 
 namespace App\Models\User;
 
+use App\Models\Feature\Favorite;
+use App\Models\Feature\History;
 use App\Models\Feature\Playlist;
 use App\Models\Feature\Subscribe;
 use App\Models\Music\Comment;
@@ -25,7 +27,7 @@ use Illuminate\Notifications\Notifiable;
  * @property Carbon       $created_at
  * @property Carbon       $updated_at
  *
- * @property Profile $profile
+ * @property Profile      $profile
  *
  */
 class User extends Authenticatable
@@ -92,5 +94,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Playlist::class);
     }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function histories()
+    {
+        return $this->hasMany(History::class);
+    }
+
 }
 

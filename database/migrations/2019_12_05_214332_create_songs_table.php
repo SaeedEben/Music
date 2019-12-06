@@ -19,6 +19,7 @@ class CreateSongsTable extends Migration
             $table->string('name');
             $table->dateTime('release_at');
             $table->timestamp('duration');
+            $table->text('lyric');
 
             $table->bigInteger('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
