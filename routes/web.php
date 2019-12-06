@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['namespace' => 'Music' , 'prefix' => 'music'] , function (){
+    Route::apiResource('/genre' , 'GenreController');
+});
