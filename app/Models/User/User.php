@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\Feature\Subscribe;
 use App\Models\Music\Comment;
 use App\Models\Music\Like;
 use Carbon\Carbon;
@@ -79,6 +80,11 @@ class User extends Authenticatable
     public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+    
+    public function subscribes()
+    {
+        return $this->hasMany(Subscribe::class);
     }
 }
 

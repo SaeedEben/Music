@@ -55,11 +55,6 @@ class Song extends Model
         return $this->hasOne(Video::class);
     }
 
-    public function comments()
-    {
-        return $this->morphMany(Comment::class , 'commentable');
-    }
-
     public function albume()
     {
         return $this->belongsTo(Albume::class);
@@ -70,8 +65,21 @@ class Song extends Model
         return $this->belongsToMany(Artist::class);
     }
 
+    // <<<<<<<<<<<<<<<<<<< PolyMorph Relations >>>>>>>>>>>>>>>>>>>>>>>
+
+
     public function likes()
     {
         return $this->morphMany(Like::class , 'likable');
+    }
+
+    public function files()
+    {
+        return $this->morphMany(File::class , 'fileable');
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class , 'commentable');
     }
 }

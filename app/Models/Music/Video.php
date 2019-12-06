@@ -38,6 +38,9 @@ class Video extends Model
         return $this->belongsTo(Song::class);
     }
 
+    // <<<<<<<<<<<<<<<<<<< Polymorph Relations >>>>>>>>>>>>>>>>>>>>>>>
+
+
     public function comments()
     {
         return $this->morphMany(Comment::class , 'commentable');
@@ -46,6 +49,11 @@ class Video extends Model
     public function likes()
     {
         return $this->morphMany(Like::class , 'likable');
+    }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
     }
 
 }
