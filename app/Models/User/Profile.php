@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon    $updated_at
  *
  *
- * @property User $user
+ * @property User $user_id
  */
 class Profile extends Model
 {
@@ -35,6 +35,13 @@ class Profile extends Model
         'mobile',
     ];
 
+    // <<<<<<<<<<<<<<<<<<< Attributes >>>>>>>>>>>>>>>>>>>>>>>
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
     // <<<<<<<<<<<<<<<<<<< Relations >>>>>>>>>>>>>>>>>>>>>>>
 
     public function user()
@@ -42,10 +49,4 @@ class Profile extends Model
         return $this->belongsTo(User::class);
     }
 
-    // <<<<<<<<<<<<<<<<<<< Attributes >>>>>>>>>>>>>>>>>>>>>>>
-
-    public function getFullNameAttribute()
-    {
-        return $this->first_name . ' ' . $this->last_name;
-    }
 }

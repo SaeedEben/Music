@@ -29,13 +29,13 @@ class Song extends Model
 {
     protected $fillable = [
         'name',
-        'released_at',
-        'length',
+        'release_at',
+        'duration',
 
     ];
 
     protected $casts =[
-        'length' => 'date:hh:mm'
+        'duration' => 'date:hh:mm'
     ];
 
     // <<<<<<<<<<<<<<<<<<< Relations >>>>>>>>>>>>>>>>>>>>>>>
@@ -50,4 +50,23 @@ class Song extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function video()
+    {
+        return $this->hasOne(Video::class);
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class , 'commentable');
+    }
+
+    public function albume()
+    {
+        return $this->belongsTo(Albume::class);
+    }
+
+    public function artists()
+    {
+        return $this->belongsToMany(Artist::class);
+    }
 }

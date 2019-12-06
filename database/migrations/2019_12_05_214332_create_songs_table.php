@@ -17,11 +17,15 @@ class CreateSongsTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('name');
-            $table->dateTime('released_at');
-            $table->timestamp('length');
+            $table->dateTime('release_at');
+            $table->timestamp('duration');
 
             $table->bigInteger('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
+
+            $table->bigInteger('albume_id')->unsigned();
+            $table->foreign('albume_id')->references('id')->on('albumes')->onDelete('cascade');
+
 
             $table->timestamps();
         });

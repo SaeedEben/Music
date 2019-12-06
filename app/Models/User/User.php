@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\Music\Comment;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -67,6 +68,11 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne(Profile::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }
 
