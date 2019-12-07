@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Music;
+namespace App\Http\Controllers\Panel\Music;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Music\Category\StoreCategoryRequest;
@@ -16,6 +16,7 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response|object
+     *
      */
     public function index()
     {
@@ -33,12 +34,19 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         $category = new Category();
+
+        $translation = [
+            'en' => $request->name['en'],
+            'fa' => $request->name['fa'],
+        ];
+        $category->setTranslations('name' , $translation);
+
         $category->fill($request->all());
         $category->save();
 
         return [
             'success' => true,
-            'message' => 'اطلاعات شما با موفقیت ذخیره شد',
+            'message' => trans('responses.panel.music.message.store'),
         ];
     }
 
@@ -64,12 +72,19 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
+        $translations = [
+            'en' => $request->name['en'],
+            'fa' => $request->name['fa'],
+        ];
+
+        $category->setTranslations('name' , $translations);
+
         $category->fill($request->all());
         $category->save();
 
         return [
             'success' => true,
-            'message' => 'اطلاعات شما با موفقیت به روزرسانی شد',
+            'message' => trans('responses.panel.music.message.update'),
         ];
     }
 
@@ -86,7 +101,7 @@ class CategoryController extends Controller
         $category->delete();
         return [
             'success' => true,
-            'message' => 'اطلاعات مورد نظر شما حذف شد',
+            'message' => trans('responses.panel.music.message.delete'),
         ];
     }
 }

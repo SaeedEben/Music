@@ -24,8 +24,9 @@ class StoreArtistRequest extends FormRequest
     public function rules()
     {
         return [
+
             'name'      => 'required',
-            'biography' => 'required'
+            'biography' => 'required',
         ];
     }
 }

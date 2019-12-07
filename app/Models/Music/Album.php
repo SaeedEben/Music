@@ -6,24 +6,23 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
-
 /**
- * Class Genre
+ * Class Album
  *
  * @package App\Models\Music
  *
  * @property int    $id
  *
- * @property string $name
+ * @property object $name
+ * @property Carbon $release_at
+ * @property int    $number_of_track
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
- *
- * @property Song[] $song
  */
-class Genre extends Model
+class Album extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'release_at', 'number_of_track'];
 
     // ------------------- Translation ------------------------
     use HasTranslations;
@@ -32,9 +31,15 @@ class Genre extends Model
 
     // ------------------- Relations ------------------------
 
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
     public function songs()
     {
-        return $this->belongsToMany(Song::class, 'song_genre', 'genre_id', 'song_id');
+        return $this->hasMany(Song::class);
     }
 
 }

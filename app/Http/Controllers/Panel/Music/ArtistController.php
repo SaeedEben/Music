@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Music;
+namespace App\Http\Controllers\Panel\Music;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Music\Category\StoreCategoryRequest;
@@ -9,6 +9,13 @@ use App\Http\Resources\Music\Artist\ArtistShowResource;
 use App\Models\Music\Artist;
 use Illuminate\Http\Request;
 
+/**
+ * Class ArtistController
+ *
+ * @package App\Http\Controllers\Panel\Music
+ *
+ *
+ */
 class ArtistController extends Controller
 {
     /**
@@ -19,6 +26,7 @@ class ArtistController extends Controller
     public function index()
     {
         $artist = Artist::paginate();
+
         return ArtistIndexResource::collection($artist);
     }
 
@@ -31,13 +39,24 @@ class ArtistController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
+
+//       $locale =  $request->headers->get('accept_language');
+//        app()->setLocale($locale);
         $artist = new Artist();
+
+        $translations = [
+            'en' => $request->name['en'],
+            'fa' => $request->name['fa'],
+        ];
+
+        $artist->setTranslations('name', $translations);
+
         $artist->fill($request->all());
         $artist->save();
 
         return [
             'success' => true,
-            'message' => 'اطلاعات هنرمند جدید ذخیره شد.',
+            'message' => trans('responses.panel.music.message.store'),
         ];
     }
 
@@ -53,6 +72,7 @@ class ArtistController extends Controller
         return new ArtistShowResource($artist);
     }
 
+
     /**
      * Update the specified resource in storage.
      *
@@ -63,14 +83,19 @@ class ArtistController extends Controller
      */
     public function update(Request $request, Artist $artist)
     {
+        $translations = [
+            'name_en' => $request->name['en'],
+            'name_fa' => $request->name['fa'],
+        ];
+
+        $artist->setTranslations('name' , $translations);
+
         $artist->fill($request->all());
         $artist->save();
 
         return [
-
-
             'success' => true,
-            'message' => 'اطلاعات هنرمند به روزرسانی شد',
+            'message' => trans('responses.panel.music.message.update'),
         ];
     }
 
@@ -87,8 +112,8 @@ class ArtistController extends Controller
         $artist->delete();
 
         return [
-            'success'=> true,
-            'message' => 'اطلاعات هنرمند با موفقیت حذف شد'
+            'success' => true,
+            'message' => trans('responses.panel.music.message.delete'),
         ];
     }
 }

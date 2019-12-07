@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Music\Artist;
+namespace App\Http\Requests\Music\Album;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateArtistRequest extends FormRequest
+class UpdateAlbumRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class UpdateArtistRequest extends FormRequest
     public function rules()
     {
         return [
-
-            'name'     => 'required',
-            'biography' => 'required',
+            'name'            => 'required',
+            'number_of_track' => 'required',
         ];
     }
 }

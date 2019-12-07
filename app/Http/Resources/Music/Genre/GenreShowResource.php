@@ -24,7 +24,8 @@ class GenreShowResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name' => $this->name,
+            'name_fa' => $this->getTranslation('name' , 'fa'),
+            'name_en' => $this->getTranslation('name' , 'en'),
         ];
     }
 }

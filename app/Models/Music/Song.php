@@ -37,9 +37,6 @@ class Song extends Model
 
     ];
 
-    protected $casts = [
-        'duration' => 'date:hh:mm',
-    ];
 
     // <<<<<<<<<<<<<<<<<<< Relations >>>>>>>>>>>>>>>>>>>>>>>
 
@@ -58,9 +55,9 @@ class Song extends Model
         return $this->hasOne(Video::class);
     }
 
-    public function albume()
+    public function album()
     {
-        return $this->belongsTo(Albume::class);
+        return $this->belongsTo(Album::class);
     }
 
     public function artists()

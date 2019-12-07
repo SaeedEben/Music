@@ -4,6 +4,7 @@ namespace App\Models\Music;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 /**
  * Class Category
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @package App\Models\Music
  *
  * @property int    $id
- * @property string $name
+ * @property object $name
  *
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -23,7 +24,13 @@ class Category extends Model
 {
     protected $fillable = ['name'];
 
-    // <<<<<<<<<<<<<<<<<<< Relations >>>>>>>>>>>>>>>>>>>>>>>
+    // ------------------- translator ------------------------
+    use HasTranslations;
+
+    public $translatable = ['name'];
+
+     // ------------------- Relations ------------------------
+
 
     public function songs()
     {

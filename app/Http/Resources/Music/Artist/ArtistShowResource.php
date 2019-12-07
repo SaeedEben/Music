@@ -24,8 +24,10 @@ class ArtistShowResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name'      => $this->name,
-            'biography' => $this->biography,
+            'name_fa'    => $this->getTranslation('name', 'fa'),
+            'name_en'    => $this->getTranslation('name', 'en'),
+            'biography'  => $this->biography,
+            'created_at' => $this->created_at->format('Y-m-d H:i'),
         ];
     }
 }

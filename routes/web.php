@@ -19,8 +19,12 @@ Route::group(['namespace' => 'Auth'] , function (){
     Route::post('/logout' , 'LoginController@logout');
 });
 
-Route::group(['namespace' => 'Music' , 'prefix' => 'music' , 'middleware' => 'auth'] , function (){
-    Route::apiResource('/genre' , 'GenreController');
-    Route::apiResource('/category' , 'CategoryController');
-    Route::apiResource('/artist' , 'ArtistController');
+Route::group(['namespace' => 'Panel' ] , function (){
+    Route::group(['namespace' => 'Music' , 'prefix' => 'music' , 'middleware' => 'auth'] , function (){
+        Route::apiResource('/genre' , 'GenreController');
+        Route::apiResource('/category' , 'CategoryController');
+        Route::apiResource('/artist' , 'ArtistController');
+        Route::apiResource('/album' , 'AlbumController');
+    });
 });
+

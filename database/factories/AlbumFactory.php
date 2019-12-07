@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\Music\Albume;
+use App\Models\Music\Album;
 use Faker\Generator as Faker;
 
-$factory->define(Albume::class, function (Faker $faker) {
+$factory->define(Album::class, function (Faker $faker) {
     return [
         //
     ];

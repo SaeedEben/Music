@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Music;
+namespace App\Http\Controllers\Panel\Music;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Music\Genre\StoreGenreRequest;
@@ -33,12 +33,20 @@ class GenreController extends Controller
     public function store(StoreGenreRequest $request)
     {
         $genre = new Genre();
+
+        $translations = [
+            'name_fa' => $request->name['fa'],
+            'name_en' => $request->name['en'],
+        ];
+
+        $genre->setTranslations('name' , $translations);
+
         $genre->fill($request->all());
 //        $genre->songs()->attach(1);
         $genre->save();
         return [
             'success' => true,
-            'message' => 'ژانر شما با موفقیت اضافه شد'
+            'message' => trans('responses.panel.music.message.store'),
         ];
     }
 
@@ -64,11 +72,18 @@ class GenreController extends Controller
      */
     public function update(UpdateGenreRequest $request, Genre $genre)
     {
+        $translations = [
+            'name_fa' => $request->name['fa'],
+            'name_en' => $request->name['en'],
+        ];
+        $genre->setTranslations('name' , $translations);
+
         $genre->fill($request->all());
         $genre->save();
+
         return[
             'success' => true,
-            'message' => 'ژانر مورد نظر به روزرسانی شد'
+            'message' => trans('responses.panel.music.message.update'),
         ];
     }
 
@@ -85,7 +100,7 @@ class GenreController extends Controller
         $genre->delete();
         return[
             'success' => true,
-            'message' => 'ژانر با موفقیت حذف شد'
+            'message' => trans('responses.panel.music.message.delete'),
         ];
     }
 }
