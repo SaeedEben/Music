@@ -22,6 +22,7 @@ class CreateGenresTable extends Migration
             $table->json('name');
 
             $table->timestamps();
+            $table->softDeletes();
         });
 
     }

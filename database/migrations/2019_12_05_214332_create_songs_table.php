@@ -18,7 +18,7 @@ class CreateSongsTable extends Migration
 
             $table->string('name');
             $table->dateTime('release_at');
-            $table->time('duration');
+            $table->string('duration');
             $table->text('lyric');
 
             $table->bigInteger('category_id')->unsigned();
@@ -29,9 +29,11 @@ class CreateSongsTable extends Migration
 
 
             $table->timestamps();
+            $table->softDeletes();
         });
 
-        // <<<<<<<<<<<<<<<<<<< Pivot Tables >>>>>>>>>>>>>>>>>>>>>>>
+
+        // -------------------  Pivot Tables  ------------------------
 
 
         Schema::create('song_genre', function (Blueprint $table) {

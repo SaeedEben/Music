@@ -21,10 +21,25 @@ Route::group(['namespace' => 'Auth'] , function (){
 
 Route::group(['namespace' => 'Panel' ] , function (){
     Route::group(['namespace' => 'Music' , 'prefix' => 'music' , 'middleware' => 'auth'] , function (){
-        Route::apiResource('/genre' , 'GenreController');
-        Route::apiResource('/category' , 'CategoryController');
-        Route::apiResource('/artist' , 'ArtistController');
+
+        Route::get('/album/list' , 'AlbumController@list');
+        Route::post('/album/{id}/restore' , 'AlbumController@restore');
         Route::apiResource('/album' , 'AlbumController');
+
+        Route::get('/genre/list' , 'GenreController@list');
+        Route::post('/genre/{id}/restore' , 'GenreController@restore');
+        Route::apiResource('/genre' , 'GenreController');
+
+        Route::get('/category/list' , 'CategoryController@list');
+        Route::post('/category/{id}/restore' , 'CategoryController@restore');
+        Route::apiResource('/category' , 'CategoryController');
+
+        Route::get('/artist/list' , 'ArtistController@list');
+        Route::post('/artist/{id}/restore' , 'ArtistController@restore');
+        Route::apiResource('/artist' , 'ArtistController');
+
+        Route::get('/song/list' , 'SongController@list');
+        Route::post('/song/{id}/restore' , 'SongController@restore');
         Route::apiResource('/song' , 'SongController');
     });
 });

@@ -33,21 +33,33 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $category = new Category();
+        \DB::beginTransaction();
+        try {
+            $category = new Category();
 
-        $translation = [
-            'en' => $request->name['en'],
-            'fa' => $request->name['fa'],
-        ];
-        $category->setTranslations('name' , $translation);
+            $translation = [
+                'en' => $request->name['en'],
+                'fa' => $request->name['fa'],
+            ];
+            $category->setTranslations('name' , $translation);
 
-        $category->fill($request->all());
-        $category->save();
+            $category->fill($request->all());
+            $category->save();
 
-        return [
-            'success' => true,
-            'message' => trans('responses.panel.music.message.store'),
-        ];
+            \DB::commit();
+
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.store'),
+            ];
+        }catch (\Exception $exception){
+            \DB::rollBack();
+
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
     }
 
     /**
@@ -72,20 +84,32 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $translations = [
-            'en' => $request->name['en'],
-            'fa' => $request->name['fa'],
-        ];
+        \DB::beginTransaction();
 
-        $category->setTranslations('name' , $translations);
+        try {
+            $translations = [
+                'en' => $request->name['en'],
+                'fa' => $request->name['fa'],
+            ];
 
-        $category->fill($request->all());
-        $category->save();
+            $category->setTranslations('name' , $translations);
 
-        return [
-            'success' => true,
-            'message' => trans('responses.panel.music.message.update'),
-        ];
+            $category->fill($request->all());
+            $category->save();
+
+            \DB::commit();
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.update'),
+            ];
+        }catch (\Exception $exception){
+            \DB::rollBack();
+
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
     }
 
     /**
@@ -98,10 +122,46 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();
-        return [
-            'success' => true,
-            'message' => trans('responses.panel.music.message.delete'),
-        ];
+        try {
+            $category->delete();
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.delete'),
+            ];
+        }catch(\Exception $exception){
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     *
+     * @return \Illuminate\Http\Response|array
+     * @throws \Exception
+     */
+    public function restore($id)
+    {
+        try {
+            Category::onlyTrashed()->findOrFail($id)->restore();
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.restore'),
+            ];
+        }catch(\Exception $exception){
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
+    }
+
+    public function list()
+    {
+       return Category::select('id' , 'name')->get();
     }
 }

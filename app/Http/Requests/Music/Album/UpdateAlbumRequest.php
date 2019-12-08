@@ -23,9 +23,17 @@ class UpdateAlbumRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name'            => 'required',
+        $rules = [
+            'name',
             'number_of_track' => 'required',
+            'release_at'      => 'required|date_format:Y-m-d',
         ];
+
+        foreach (['en', 'fa'] as $locale) {
+            $rules["name.{$locale}"] = 'required|min:2';
+        }
+
+
+        return $rules;
     }
 }

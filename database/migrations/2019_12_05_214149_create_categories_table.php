@@ -21,6 +21,7 @@ class CreateCategoriesTable extends Migration
             $table->json('name');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

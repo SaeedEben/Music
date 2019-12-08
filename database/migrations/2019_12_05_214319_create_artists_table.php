@@ -20,6 +20,7 @@ class CreateArtistsTable extends Migration
             $table->text('biography');
 
             $table->timestamps();
+            $table->softDeletes();
         });
 
     }

@@ -4,6 +4,7 @@ namespace App\Models\Music;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
 
@@ -30,7 +31,7 @@ class Artist extends Model
 
     // <<<<<<<<<<<<<<<<<<< use translation trait >>>>>>>>>>>>>>>>>>>>>>>
 
-    use HasTranslations;
+    use HasTranslations , softDeletes;
 
     public $translatable = ['name'];
 

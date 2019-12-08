@@ -24,9 +24,15 @@ class StoreSongRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name'     => 'required',
-            'duration' => 'required|regex:/[0-5][0-9]:[0-5][0-9]/',
+        $rules = [
+            'name' ,
+            'duration' => 'required|format:i:s',
         ];
+
+        foreach (['en' , 'fa'] as $locale){
+            $rules["name.{$local}"] = 'required|min:3';
+        }
+
+        return $rules;
     }
 }

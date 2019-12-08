@@ -23,10 +23,16 @@ class UpdateArtistRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules =  [
 
-            'name'     => 'required',
+            'name'  ,
             'biography' => 'required',
         ];
+
+        foreach (['en' , 'fa'] as $locale){
+            $rules["name.{$locale}"] = 'required|min:3';
+        }
+
+        return $rules;
     }
 }

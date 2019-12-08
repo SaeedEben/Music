@@ -32,22 +32,35 @@ class GenreController extends Controller
      */
     public function store(StoreGenreRequest $request)
     {
-        $genre = new Genre();
+        \DB::beginTransaction();
 
-        $translations = [
-            'name_fa' => $request->name['fa'],
-            'name_en' => $request->name['en'],
-        ];
+        try {
+            $genre = new Genre();
 
-        $genre->setTranslations('name' , $translations);
+            $translations = [
+                'name_fa' => $request->name['fa'],
+                'name_en' => $request->name['en'],
+            ];
 
-        $genre->fill($request->all());
+            $genre->setTranslations('name', $translations);
+
+            $genre->fill($request->all());
 //        $genre->songs()->attach(1);
-        $genre->save();
-        return [
-            'success' => true,
-            'message' => trans('responses.panel.music.message.store'),
-        ];
+            $genre->save();
+            \DB::commit();
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.store'),
+            ];
+
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
     }
 
     /**
@@ -72,19 +85,33 @@ class GenreController extends Controller
      */
     public function update(UpdateGenreRequest $request, Genre $genre)
     {
-        $translations = [
-            'name_fa' => $request->name['fa'],
-            'name_en' => $request->name['en'],
-        ];
-        $genre->setTranslations('name' , $translations);
+        \DB::beginTransaction();
 
-        $genre->fill($request->all());
-        $genre->save();
+        try {
+            $translations = [
+                'name_fa' => $request->name['fa'],
+                'name_en' => $request->name['en'],
+            ];
+            $genre->setTranslations('name', $translations);
 
-        return[
-            'success' => true,
-            'message' => trans('responses.panel.music.message.update'),
-        ];
+            $genre->fill($request->all());
+            $genre->save();
+
+            \DB::commit();
+
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.update'),
+            ];
+
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
     }
 
     /**
@@ -97,10 +124,58 @@ class GenreController extends Controller
      */
     public function destroy(Genre $genre)
     {
-        $genre->delete();
-        return[
-            'success' => true,
-            'message' => trans('responses.panel.music.message.delete'),
-        ];
+        try {
+            $genre->delete();
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.delete'),
+            ];
+        } catch (\Exception $exception) {
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     *
+     * @return void|array
+     * @throws \Exception
+     */
+    public function restore($id)
+    {
+        \DB::beginTransaction();
+        try {
+            Genre::onlyTrashed()->findOrFail($id)->restore();
+
+            \DB::commit();
+
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.delete'),
+            ];
+
+        } catch (\Exception $exception) {
+            \DB::rollBack();
+
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response|object
+     */
+    public function list()
+    {
+        return Genre::select('id' , 'name')->get();
     }
 }

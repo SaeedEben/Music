@@ -21,6 +21,7 @@ class CreateAlbumsTable extends Migration
             $table->integer('number_of_track');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

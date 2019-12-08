@@ -12,22 +12,22 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *
  * @mixin Album
  */
-
 class AlbumIndexResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
     {
         return [
-            'name_fa' => $this->getTranslation('name' , 'fa'),
-            'name_en' => $this->getTranslation('name' , 'en'),
+            'name_fa'         => $this->getTranslation('name', 'fa'),
+            'name_en'         => $this->getTranslation('name', 'en'),
             'number_of_track' => $this->number_of_track,
-            'release_at' => $this->release_at,
+            'release_at'      => $this->release_at,
 
         ];
     }

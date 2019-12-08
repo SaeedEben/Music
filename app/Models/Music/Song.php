@@ -7,6 +7,7 @@ use App\Models\Feature\History;
 use App\Models\Feature\Playlist;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
 
@@ -29,6 +30,7 @@ use Spatie\Translatable\HasTranslations;
  * @property Genre[]   $genre
  * @property Category  $category
  * @property int       $category_id
+ * @property int       $album_id
  */
 class Song extends Model
 {
@@ -41,7 +43,7 @@ class Song extends Model
     ];
 
     // ------------------- Translator ------------------------
-    use HasTranslations;
+    use HasTranslations , softDeletes;
 
     public $translatable = ['name'];
 

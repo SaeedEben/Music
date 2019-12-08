@@ -34,22 +34,34 @@ class SongController extends Controller
      */
     public function store(Request $request)
     {
-        $song         = new Song();
-        $translations = [
-            'en' => $request->name['en'],
-            'fa' => $request->name['fa'],
-        ];
-        $song->setTranslations('name', $translations);
+        \DB::beginTransaction();
 
-        $song->fill($request->all());
-        $song->category_id = $request->category_id;
-        $song->album_id    = $request->album_id;
-        $song->save();
+        try {
+            $song         = new Song();
+            $translations = [
+                'en' => $request->name['en'],
+                'fa' => $request->name['fa'],
+            ];
+            $song->setTranslations('name', $translations);
 
-        return [
-            'success' => true,
-            'message' => trans('responses.panel.music.message.store'),
-        ];
+            $song->fill($request->all());
+            $song->category_id = $request->category_id;
+            $song->album_id    = $request->album_id;
+            $song->save();
+
+            \DB::commit();
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.store'),
+            ];
+        }catch (\Exception $exception){
+            \DB::rollBack();
+
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
     }
 
     /**
@@ -74,18 +86,30 @@ class SongController extends Controller
      */
     public function update(Request $request, Song $song)
     {
-        $translation = [
-            'fa' => $request->name['fa'],
-            'en' => $request->name['en'],
-        ];
-        $song->setTranslations('name', $translation);
-        $song->fill($request->all());
-        $song->save();
+        \DB::beginTransaction();
 
-        return [
-            'success' => true,
-            'message' => trans('responses.panel.music.message.update'),
-        ];
+        try {
+            $translation = [
+                'fa' => $request->name['fa'],
+                'en' => $request->name['en'],
+            ];
+            $song->setTranslations('name', $translation);
+            $song->fill($request->all());
+            $song->save();
+
+            \DB::commit();
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.update'),
+            ];
+        }catch (\Exception $exception){
+            \DB::rollBack();
+
+            return [
+              'success' => false,
+              'message' => $exception->getMessage(),
+            ];
+        }
     }
 
     /**
@@ -98,11 +122,50 @@ class SongController extends Controller
      */
     public function destroy(Song $song)
     {
-        $song->delete();
+        try {
+            $song->delete();
 
-        return [
-            'success' => true,
-            'message' => trans('responses.panel.music.message.delete'),
-        ];
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.delete'),
+            ];
+        }catch (\Exception $exception){
+
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     *
+     * @param $id
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function restore($id)
+    {
+        try {
+            Song::onlyTrashed()->findOrFail($id)->restore();
+
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.restore'),
+            ];
+        }catch (\Exception $exception){
+
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
+    }
+
+    public function list()
+    {
+        return Song::select('id' , 'name')->get();
     }
 }

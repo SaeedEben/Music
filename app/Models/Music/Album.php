@@ -4,6 +4,7 @@ namespace App\Models\Music;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
 /**
@@ -25,7 +26,7 @@ class Album extends Model
     protected $fillable = ['name', 'release_at', 'number_of_track'];
 
     // ------------------- Translation ------------------------
-    use HasTranslations;
+    use HasTranslations, SoftDeletes;
 
     public $translatable = ['name'];
 

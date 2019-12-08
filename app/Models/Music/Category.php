@@ -4,6 +4,7 @@ namespace App\Models\Music;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
 /**
@@ -25,7 +26,7 @@ class Category extends Model
     protected $fillable = ['name'];
 
     // ------------------- translator ------------------------
-    use HasTranslations;
+    use HasTranslations , softDeletes;
 
     public $translatable = ['name'];
 

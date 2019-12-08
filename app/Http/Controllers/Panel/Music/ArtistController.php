@@ -42,22 +42,34 @@ class ArtistController extends Controller
 
 //       $locale =  $request->headers->get('accept_language');
 //        app()->setLocale($locale);
-        $artist = new Artist();
+        \DB::beginTransaction();
 
-        $translations = [
-            'en' => $request->name['en'],
-            'fa' => $request->name['fa'],
-        ];
+        try {
+            $artist = new Artist();
 
-        $artist->setTranslations('name', $translations);
+            $translations = [
+                'en' => $request->name['en'],
+                'fa' => $request->name['fa'],
+            ];
 
-        $artist->fill($request->all());
-        $artist->save();
+            $artist->setTranslations('name', $translations);
 
-        return [
-            'success' => true,
-            'message' => trans('responses.panel.music.message.store'),
-        ];
+            $artist->fill($request->all());
+            $artist->save();
+
+            \DB::commit();
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.store'),
+            ];
+        }catch (\Exception $exception){
+            \DB::rollBack();
+
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
     }
 
     /**
@@ -83,20 +95,32 @@ class ArtistController extends Controller
      */
     public function update(Request $request, Artist $artist)
     {
-        $translations = [
-            'name_en' => $request->name['en'],
-            'name_fa' => $request->name['fa'],
-        ];
+        \DB::beginTransaction();
 
-        $artist->setTranslations('name' , $translations);
+        try {
+            $translations = [
+                'name_en' => $request->name['en'],
+                'name_fa' => $request->name['fa'],
+            ];
 
-        $artist->fill($request->all());
-        $artist->save();
+            $artist->setTranslations('name' , $translations);
 
-        return [
-            'success' => true,
-            'message' => trans('responses.panel.music.message.update'),
-        ];
+            $artist->fill($request->all());
+            $artist->save();
+
+            \DB::commit();
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.update'),
+            ];
+        }catch (\Exception $exception){
+            \DB::rollBack();
+
+            return [
+               'success' => false,
+               'message' => $exception->getMessage(),
+            ];
+        }
     }
 
     /**
@@ -109,11 +133,49 @@ class ArtistController extends Controller
      */
     public function destroy(Artist $artist)
     {
-        $artist->delete();
+        try {
+            $artist->delete();
 
-        return [
-            'success' => true,
-            'message' => trans('responses.panel.music.message.delete'),
-        ];
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.delete'),
+            ];
+        }catch (\Exception $exception){
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     *
+     * @param $id
+     *
+     * @return void|array
+     * @throws \Exception
+     */
+    public function restore($id)
+    {
+        try {
+            Artist::onlyTrashed()->findOrFail($id)->restore();
+
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.restore'),
+            ];
+
+        }catch (\Exception $exception){
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
+    }
+
+    public function list()
+    {
+        return Artist::select('id' , 'name')->get();
     }
 }

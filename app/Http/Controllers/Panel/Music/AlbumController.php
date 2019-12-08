@@ -34,21 +34,34 @@ class AlbumController extends Controller
      */
     public function store(StoreAlbumRequest $request)
     {
-        $album = new Album();
+        \DB::beginTransaction();
+        try {
+            $album = new Album();
 
-        $translations = [
-            'fa' => $request->name['fa'],
-            'en' => $request->name['en'],
-        ];
+            $translations = [
+                'fa' => $request->name['fa'],
+                'en' => $request->name['en'],
+            ];
 
-        $album->setTranslations('name', $translations);
-        $album->fill($request->all());
-        $album->save();
+            $album->setTranslations('name', $translations);
+            $album->fill($request->all());
+            $album->save();
 
-        return [
-            'success' => true,
-            'message' => trans('responses.panel.music.message.store'),
-        ];
+            \DB::commit();
+
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.store'),
+            ];
+
+        }catch(\Exception $exception){
+            \DB::rollBack();
+
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
     }
 
     /**
@@ -73,19 +86,31 @@ class AlbumController extends Controller
      */
     public function update(UpdateAlbumRequest $request, Album $album)
     {
-        $translations = [
-            'fa' => $request->name['fa'],
-            'en' => $request->name['en'],
-        ];
+        \DB::beginTransaction();
+        try {
+            $translations = [
+                'fa' => $request->name['fa'],
+                'en' => $request->name['en'],
+            ];
 
-        $album->setTranslations('name', $translations);
-        $album->fill($request->all());
-        $album->save();
+            $album->setTranslations('name', $translations);
+            $album->fill($request->all());
+            $album->save();
 
-        return [
-            'success' => true,
-            'message' => trans('responses.panel.music.message.update'),
-        ];
+            \DB::commit();
+
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.update'),
+            ];
+        }catch (\Exception $exception){
+            \DB::rollBack();
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
+
     }
 
     /**
@@ -98,11 +123,56 @@ class AlbumController extends Controller
      */
     public function destroy(Album $album)
     {
-        $album->delete();
+        try {
+            $album->delete();
 
-        return [
-            'success' => true,
-            'message' => trans('responses.panel.music.message.delete'),
-        ];
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.delete'),
+            ];
+        }catch (\Exception $exception){
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     *
+     * @return Response|array
+     */
+    public function restore($id)
+    {
+
+        try {
+            Album::onlyTrashed()->findOrFail($id)->restore();
+
+            return [
+                'success' => true,
+                'message' => trans('responses.panel.music.message.restore'),
+            ];
+
+        }catch (\Exception $exception){
+
+            return [
+                'success' => false,
+                'message' => $exception->getMessage(),
+            ];
+        }
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @return Response|array
+     */
+    public function list(){
+        return Album::select('id','name')->get();
     }
 }
