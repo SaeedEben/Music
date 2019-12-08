@@ -25,6 +25,7 @@ Route::group(['namespace' => 'Panel' ] , function (){
         Route::apiResource('/category' , 'CategoryController');
         Route::apiResource('/artist' , 'ArtistController');
         Route::apiResource('/album' , 'AlbumController');
+        Route::apiResource('/song' , 'SongController');
     });
 });
 

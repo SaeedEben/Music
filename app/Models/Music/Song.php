@@ -7,6 +7,8 @@ use App\Models\Feature\History;
 use App\Models\Feature\Playlist;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
+
 
 /**
  * Class Song
@@ -15,8 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int       $id
  *
- * @property \DateTime $released_at
- * @property Carbon    $length
+ * @property \DateTime $release_at
+ * @property Carbon    $duration
  * @property string    $lyric
  *
  * @property string    $image_path
@@ -34,11 +36,18 @@ class Song extends Model
         'name',
         'release_at',
         'duration',
+        'lyric'
 
     ];
 
+    // ------------------- Translator ------------------------
+    use HasTranslations;
 
-    // <<<<<<<<<<<<<<<<<<< Relations >>>>>>>>>>>>>>>>>>>>>>>
+    public $translatable = ['name'];
+
+
+    // ------------------- Relations ------------------------
+
 
     public function genres()
     {
@@ -80,7 +89,7 @@ class Song extends Model
         return $this->hasMany(History::class);
     }
 
-    // <<<<<<<<<<<<<<<<<<< PolyMorph Relations >>>>>>>>>>>>>>>>>>>>>>>
+    // ------------------- Polymorphic Relations ------------------------
 
 
     public function likes()
