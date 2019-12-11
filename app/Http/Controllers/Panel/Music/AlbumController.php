@@ -175,4 +175,5 @@ class AlbumController extends Controller
     public function list(){
         return Album::select('id','name')->get();
     }
+
 }

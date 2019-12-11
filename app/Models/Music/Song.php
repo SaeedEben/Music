@@ -38,12 +38,12 @@ class Song extends Model
         'name',
         'release_at',
         'duration',
-        'lyric'
+        'lyric',
 
     ];
 
     // ------------------- Translator ------------------------
-    use HasTranslations , softDeletes;
+    use HasTranslations, softDeletes;
 
     public $translatable = ['name'];
 

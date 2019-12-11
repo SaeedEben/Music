@@ -30,7 +30,7 @@ class StoreSongRequest extends FormRequest
         ];
 
         foreach (['en' , 'fa'] as $locale){
-            $rules["name.{$local}"] = 'required|min:3';
+            $rules["name.{$locale}"] = 'required|min:3';
         }
 
         return $rules;

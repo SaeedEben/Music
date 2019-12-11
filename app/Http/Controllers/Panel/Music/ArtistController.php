@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Panel\Music;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Music\Category\StoreCategoryRequest;
 use App\Http\Resources\Music\Artist\ArtistIndexResource;
@@ -22,10 +21,22 @@ class ArtistController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response|object
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function index()
     {
+//        cache()->remember('artists', now()->addSeconds(5), function (){
+//            $artist = Artist::paginate();
+//
+//            return ArtistIndexResource::collection($artist);
+//        });
+
+        if (cache()->has('artists')){
+            return cache()->pull('artists');
+        }
         $artist = Artist::paginate();
+
+        cache()->put('artists', $artist , now()->addSeconds(2));
 
         return ArtistIndexResource::collection($artist);
     }
