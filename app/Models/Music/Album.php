@@ -10,7 +10,7 @@ use Spatie\Translatable\HasTranslations;
 /**
  * Class Album
  *
- * @package App\Models\Music
+ * @package App\Models\music
  *
  * @property int    $id
  *

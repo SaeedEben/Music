@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Video
  *
- * @package App\Models\Music
+ * @package App\Models\music
  *
  * @property int    $id
  *
@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
- * @property Song   $song
+ * @property Song   $music
  */
 class Video extends Model
 {

@@ -14,7 +14,7 @@ use Spatie\Translatable\HasTranslations;
 /**
  * Class Song
  *
- * @package App\Models\Music
+ * @package App\Models\music
  *
  * @property int       $id
  *

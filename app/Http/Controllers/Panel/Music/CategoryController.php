@@ -162,6 +162,9 @@ class CategoryController extends Controller
 
     public function list()
     {
-       return Category::select('id' , 'name')->get();
+        $pure_data = Category::paginate();
+        $obj = CategoryIndexResource::collection($pure_data)->resource;
+        $categories = json_decode(json_encode($obj))->data;
+        return view('music.category.categorylist', compact('categories'));
     }
 }

@@ -9,7 +9,7 @@ use App\Models\Music\Song;
 /**
  * Class SongShowResource
  *
- * @package App\Http\Resources\Music\Song
+ * @package App\Http\Resources\music\Song
  *
  *
  * @mixin Song

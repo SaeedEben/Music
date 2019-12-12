@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Like
  *
- * @package App\Models\Music
+ * @package App\Models\music
  *
  * @property int $id
  *

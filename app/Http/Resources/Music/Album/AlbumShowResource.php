@@ -8,7 +8,7 @@ use App\Http\Resources\Music\Album;
 /**
  * Class AlbumShowResource
  *
- * @package App\Http\Resources\Music\Album
+ * @package App\Http\Resources\music\Album
  *
  * @mixin \App\Models\Music\Album
  */

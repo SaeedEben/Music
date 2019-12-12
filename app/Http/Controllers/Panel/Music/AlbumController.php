@@ -170,10 +170,12 @@ class AlbumController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return Response|array
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function list(){
-        return Album::select('id','name')->get();
-    }
+        $pure_data = Album::paginate();
+        $obj = AlbumIndexResource::collection($pure_data)->resource;
+        $albums = json_decode(json_encode($obj))->data;
+        return view('music.album.albumlist', compact('albums'));    }
 
 }

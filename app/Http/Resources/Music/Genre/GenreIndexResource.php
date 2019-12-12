@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * Class GenreIndexResource
  *
- * @package App\Http\Resources\Music\Genre
+ * @package App\Http\Resources\music\Genre
  *
  * @mixin Genre
  */
@@ -17,14 +17,16 @@ class GenreIndexResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
     {
         return [
-            'name_fa' => $this->getTranslation('name' , 'fa'),
-            'name_en' => $this->getTranslation('name' , 'en'),
+            'id'      => $this->id,
+            'name_fa' => $this->getTranslation('name', 'fa'),
+            'name_en' => $this->getTranslation('name', 'en'),
         ];
     }
 }

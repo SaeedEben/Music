@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 /**
  * Class ArtistController
  *
- * @package App\Http\Controllers\Panel\Music
+ * @package App\Http\Controllers\Panel\music
  *
  *
  */
@@ -187,6 +187,9 @@ class ArtistController extends Controller
 
     public function list()
     {
-        return Artist::select('id' , 'name')->get();
+        $pure_data = Artist::paginate();
+        $obj = ArtistIndexResource::collection($pure_data)->resource;
+        $artists = json_decode(json_encode($obj))->data;
+        return view('music.artist.artistlist', compact('artists'));
     }
 }

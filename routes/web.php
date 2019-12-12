@@ -26,7 +26,12 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::group(['namespace' => 'Frontend'] , function (){
     Route::get('artist/{id}' , 'ArtistController@show');
 });
-// ------------------- Panel/Music/Routes ------------------------
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+// ------------------- Panel/music/Routes ------------------------
 
 Route::group(['namespace' => 'Panel'], function () {
     Route::group(['namespace' => 'Music', 'prefix' => 'music', 'middleware' => 'auth'], function () {
@@ -52,4 +57,6 @@ Route::group(['namespace' => 'Panel'], function () {
         Route::apiResource('/song', 'SongController');
     });
 });
+
+
 

@@ -14,11 +14,13 @@
         "laravel/tinker": "^2.0",
         "spatie/laravel-translatable": "^4.2",
       "ext-readline": "*",
-        "ext-dom": "*"
+        "ext-dom": "*",
+      "ext-json": "*"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
+        "laravel/ui": "^1.1",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
         "phpunit/phpunit": "^8.0"

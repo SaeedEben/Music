@@ -11,7 +11,7 @@ use Spatie\Translatable\HasTranslations;
 /**
  * Class Genre
  *
- * @package App\Models\Music
+ * @package App\Models\music
  *
  * @property int    $id
  *
@@ -20,7 +20,7 @@ use Spatie\Translatable\HasTranslations;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
- * @property Song[] $song
+ * @property Song[] $music
  */
 class Genre extends Model
 {

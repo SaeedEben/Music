@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * Class ArtistShowResource
  *
- * @package App\Http\Resources\Music\Artist
+ * @package App\Http\Resources\music\Artist
  *
  * @mixin Artist
  */

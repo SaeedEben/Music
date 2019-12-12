@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * Class CategoryShowResource
  *
- * @package App\Http\Resources\Music\Category
+ * @package App\Http\Resources\music\Category
  * @mixin Category
  */
 class CategoryShowResource extends JsonResource

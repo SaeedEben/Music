@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Class StoreGenreRequest
  *
- * @package App\Http\Requests\Music\Genre
+ * @package App\Http\Requests\music\Genre
  *
  * @mixin Genre
  */

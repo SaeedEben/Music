@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * Class SongIndexResource
  *
- * @package App\Http\Resources\Music\Song
+ * @package App\Http\Resources\music\Song
  * @mixin Song
  */
 class SongIndexResource extends JsonResource
@@ -16,16 +16,18 @@ class SongIndexResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
     {
-        return [
+        return $song = [
             'name_fa'    => $this->getTranslation('name', 'fa'),
             'name_en'    => $this->getTranslation('name', 'en'),
             'release_at' => $this->release_at,
             'duration'   => $this->duration,
+            'id'         => $this->id,
         ];
     }
 }

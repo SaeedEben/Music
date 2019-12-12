@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * Class AlbumIndexResource
  *
- * @package App\Http\Resources\Music\Album
+ * @package App\Http\Resources\music\Album
  *
  * @mixin Album
  */
@@ -24,6 +24,7 @@ class AlbumIndexResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'              => $this->id,
             'name_fa'         => $this->getTranslation('name', 'fa'),
             'name_en'         => $this->getTranslation('name', 'en'),
             'number_of_track' => $this->number_of_track,

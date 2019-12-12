@@ -26,10 +26,10 @@ class GenreController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response|array
-     */
+* @param StoreGenreRequest $request
+ *
+* @return \Illuminate\Http\Response|array
+*/
     public function store(StoreGenreRequest $request)
     {
         \DB::beginTransaction();
@@ -176,6 +176,9 @@ class GenreController extends Controller
      */
     public function list()
     {
-        return Genre::select('id' , 'name')->get();
+        $pure_data = Genre::paginate();
+        $obj = GenreIndexResource::collection($pure_data)->resource;
+        $genres = json_decode(json_encode($obj))->data;
+        return view('music.genre.genrelist', compact('genres'));
     }
 }

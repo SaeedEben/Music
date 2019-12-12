@@ -6,10 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Music\Song\SongIndexResource;
 use App\Http\Resources\Music\Song\SongShowResource;
 use App\Models\Music\Song;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\View\Factory;use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Response;
+use Illuminate\Http\Response;use Illuminate\View\View;
 
+/**
+* Class SongController
+ *
+ * @package App\Http\Controllers\Panel\music
+ * @mixin Song
+ */
 class SongController extends Controller
 {
     /**
@@ -164,8 +170,17 @@ class SongController extends Controller
         }
     }
 
+    /**
+     * Transform the resource into an array.
+     *
+     *
+     * @return Factory|View
+     */
     public function list()
     {
-        return Song::select('id' , 'name')->get();
+        $pure_data = Song::paginate();
+        $obj = SongIndexResource::collection($pure_data)->resource;
+        $songs = json_decode(json_encode($obj))->data;
+        return view('music.song.songlist', compact('songs'));
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class File
  *
- * @package App\Models\Music
+ * @package App\Models\music
  *
  * @property int $id
  *

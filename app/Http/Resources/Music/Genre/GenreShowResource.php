@@ -9,7 +9,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * Class GenreShowResource
  *
- * @package App\Http\Resources\Music\Genre
+ * @package App\Http\Resources\music\Genre
  *
  * @mixin Genre
  */
