@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Genre Index!</div>
+                    <div class="card-header">Category Index!</div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -14,7 +14,7 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        <button type="button" class="btn-lg btn-block btn-success"><a href="genre/create"
+                        <button type="button" class="btn-lg btn-block btn-success"><a href="category/create"
                                                                                       style="text-decoration: none; color: #171a1d;">Create</a>
                         </button>
 
@@ -28,20 +28,19 @@
                                 <th scope="col">Do Some...</th>
                             </tr>
                             </thead>
-                            @foreach($genres as $genre)
+                            @foreach($categories as $category)
                                 <tbody>
                                 <tr>
-                                    <th scope="row">{{$genre->id}}</th>
-                                    <td>{{$genre->name_fa}}</td>
-                                    <td>{{$genre->name_en}}</td>
+                                    <th scope="row">{{$category->id}}</th>
+                                    <td>{{$category->name_fa}}</td>
+                                    <td>{{$category->name_en}}</td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="First group">
-
                                             <button type="button" class="btn btn-secondary"><a
-                                                    href="update/{{$genre->id}}"
+                                                    href="updatecat/{{$category->id}}"
                                                     style="text-decoration: none; color: #171a1d;">Update</a>
                                             </button>
-                                            <form action="genre/{{$genre->id}}" method="post">
+                                            <form action="category/{{$category->id}}" method="post">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-danger" style="color: #171a1d;">

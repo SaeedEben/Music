@@ -20,8 +20,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::paginate();
-        return CategoryIndexResource::collection($category);
+        $pure_data = Category::paginate();
+        $obj = CategoryIndexResource::collection($pure_data)->resource;
+        $categories = json_decode(json_encode($obj))->data;
+        return view('music.category.categoryindex' , compact('categories'));
     }
 
     /**
@@ -29,7 +31,7 @@ class CategoryController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Response|array
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|array
      */
     public function store(StoreCategoryRequest $request)
     {
@@ -48,10 +50,7 @@ class CategoryController extends Controller
 
             \DB::commit();
 
-            return [
-                'success' => true,
-                'message' => trans('responses.panel.music.message.store'),
-            ];
+            return redirect('music/category');
         }catch (\Exception $exception){
             \DB::rollBack();
 
@@ -80,7 +79,7 @@ class CategoryController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param Category                 $category
      *
-     * @return array
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|array
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
@@ -98,10 +97,7 @@ class CategoryController extends Controller
             $category->save();
 
             \DB::commit();
-            return [
-                'success' => true,
-                'message' => trans('responses.panel.music.message.update'),
-            ];
+            return redirect('/music/category');
         }catch (\Exception $exception){
             \DB::rollBack();
 
@@ -117,17 +113,14 @@ class CategoryController extends Controller
      *
      * @param Category $category
      *
-     * @return \Illuminate\Http\Response|array
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|array
      * @throws \Exception
      */
     public function destroy(Category $category)
     {
         try {
             $category->delete();
-            return [
-                'success' => true,
-                'message' => trans('responses.panel.music.message.delete'),
-            ];
+            return \redirect('music/category');
         }catch(\Exception $exception){
             return [
                 'success' => false,
@@ -139,19 +132,16 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param $id
+     * @param $request
      *
-     * @return \Illuminate\Http\Response|array
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|array
      * @throws \Exception
      */
-    public function restore($id)
+    public function restore(Request $request)
     {
         try {
-            Category::onlyTrashed()->findOrFail($id)->restore();
-            return [
-                'success' => true,
-                'message' => trans('responses.panel.music.message.restore'),
-            ];
+            Category::onlyTrashed()->findOrFail($request->id)->restore();
+            return redirect('music/category/list');
         }catch(\Exception $exception){
             return [
                 'success' => false,
@@ -166,5 +156,10 @@ class CategoryController extends Controller
         $obj = CategoryIndexResource::collection($pure_data)->resource;
         $categories = json_decode(json_encode($obj))->data;
         return view('music.category.categorylist', compact('categories'));
+    }
+
+    public function edit(Category $category)
+    {
+        return view('music.category.update-category' , compact('category'));
     }
 }

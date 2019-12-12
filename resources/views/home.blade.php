@@ -63,7 +63,7 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                     <a class="dropdown-item" href="music/category/list">Category List</a>
-                                    <a class="dropdown-item" href="#">Upload Song</a>
+                                    <a class="dropdown-item" href="music/category">Category Activities</a>
                                 </div>
                             </div>
                         </div>

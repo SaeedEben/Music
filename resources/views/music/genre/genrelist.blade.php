@@ -7,7 +7,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Genre Index!</div>
+                    <div class="card-header">Genre List!</div>
                     <p>If you want restore special Genre please enter the id below:</p>
                     <form action="../genre/restore" method="post">
                         @csrf

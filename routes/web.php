@@ -49,8 +49,12 @@ Route::group(['namespace' => 'Panel'], function () {
         Route::post('/genre/restore', 'GenreController@restore');
         Route::apiResource('/genre', 'GenreController');
 
+        Route::get('/category/create' , function (){
+            return view('music.category.create-category');
+        });
+        Route::get('/updatecat/{category}' , 'CategoryController@edit');
         Route::get('/category/list', 'CategoryController@list');
-        Route::post('/category/{id}/restore', 'CategoryController@restore');
+        Route::post('/category/restore', 'CategoryController@restore');
         Route::apiResource('/category', 'CategoryController');
 
         Route::get('/artist/list', 'ArtistController@list');
