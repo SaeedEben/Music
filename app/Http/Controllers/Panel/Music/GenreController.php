@@ -19,8 +19,10 @@ class GenreController extends Controller
      */
     public function index()
     {
-        $genre = Genre::paginate();
-        return GenreIndexResource::collection($genre);
+        $pure_data = Genre::paginate();
+        $obj = GenreIndexResource::collection($pure_data)->resource;
+        $genres = json_decode(json_encode($obj))->data;
+        return view('music.genre.indexgenre' , compact('genres'));
     }
 
     /**
@@ -28,7 +30,7 @@ class GenreController extends Controller
      *
 * @param StoreGenreRequest $request
  *
-* @return \Illuminate\Http\Response|array
+* @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|array
 */
     public function store(StoreGenreRequest $request)
     {
@@ -48,10 +50,7 @@ class GenreController extends Controller
 //        $genre->songs()->attach(1);
             $genre->save();
             \DB::commit();
-            return [
-                'success' => true,
-                'message' => trans('responses.panel.music.message.store'),
-            ];
+            return redirect('music/genre');
 
         } catch (\Exception $exception) {
             \DB::rollBack();
@@ -81,7 +80,8 @@ class GenreController extends Controller
      * @param UpdateGenreRequest $request
      * @param Genre              $genre
      *
-     * @return array
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|array
+     *
      */
     public function update(UpdateGenreRequest $request, Genre $genre)
     {
@@ -99,10 +99,7 @@ class GenreController extends Controller
 
             \DB::commit();
 
-            return [
-                'success' => true,
-                'message' => trans('responses.panel.music.message.update'),
-            ];
+            return redirect('music/genre');
 
         } catch (\Exception $exception) {
             \DB::rollBack();
@@ -119,17 +116,14 @@ class GenreController extends Controller
      *
      * @param Genre $genre
      *
-     * @return void|array
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|array
      * @throws \Exception
      */
     public function destroy(Genre $genre)
     {
         try {
             $genre->delete();
-            return [
-                'success' => true,
-                'message' => trans('responses.panel.music.message.delete'),
-            ];
+            return redirect('music/genre');
         } catch (\Exception $exception) {
             return [
                 'success' => false,
@@ -143,21 +137,18 @@ class GenreController extends Controller
      *
      * @param $id
      *
-     * @return void|array
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|array
      * @throws \Exception
      */
-    public function restore($id)
+    public function restore(Request $request)
     {
         \DB::beginTransaction();
         try {
-            Genre::onlyTrashed()->findOrFail($id)->restore();
+            Genre::onlyTrashed()->findOrFail($request->id)->restore();
 
             \DB::commit();
 
-            return [
-                'success' => true,
-                'message' => trans('responses.panel.music.message.delete'),
-            ];
+            return redirect('music/genre/list');
 
         } catch (\Exception $exception) {
             \DB::rollBack();
@@ -181,4 +172,12 @@ class GenreController extends Controller
         $genres = json_decode(json_encode($obj))->data;
         return view('music.genre.genrelist', compact('genres'));
     }
+
+    public function edit(Genre $genre)
+    {
+        return view('music.genre.update-genre' , compact('genre'));
+    }
+
+
+
 }

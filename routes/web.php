@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 // ------------------- Login & Logout ------------------------
 
 Route::group(['namespace' => 'Auth'], function () {
@@ -40,8 +41,12 @@ Route::group(['namespace' => 'Panel'], function () {
         Route::post('/album/{id}/restore', 'AlbumController@restore');
         Route::apiResource('/album', 'AlbumController');
 
+        Route::get('/genre/create' , function (){
+            return view('music.genre.create-genre');
+        });
+        Route::get('/update/{genre}' , 'GenreController@edit');
         Route::get('/genre/list', 'GenreController@list');
-        Route::post('/genre/{id}/restore', 'GenreController@restore');
+        Route::post('/genre/restore', 'GenreController@restore');
         Route::apiResource('/genre', 'GenreController');
 
         Route::get('/category/list', 'CategoryController@list');
