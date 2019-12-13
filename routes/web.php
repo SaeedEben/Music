@@ -37,8 +37,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['namespace' => 'Panel'], function () {
     Route::group(['namespace' => 'Music', 'prefix' => 'music', 'middleware' => 'auth'], function () {
 
+
+        Route::get('/album/create' , function (){
+            return view('music.album.create-album');
+        });
+        Route::get('/updateal/{album}' , 'AlbumController@edit');
         Route::get('/album/list', 'AlbumController@list');
-        Route::post('/album/{id}/restore', 'AlbumController@restore');
+        Route::post('/album/restore', 'AlbumController@restore');
         Route::apiResource('/album', 'AlbumController');
 
         Route::get('/genre/create' , function (){

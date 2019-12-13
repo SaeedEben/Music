@@ -26,7 +26,7 @@ class StoreAlbumRequest extends FormRequest
         $rules = [
             'name',
             'number_of_track' => 'required',
-            'release_at'      => 'required|date_format:Y-m-d',
+            'release_at'      => 'required',
         ];
 
         foreach (['en', 'fa'] as $locale) {

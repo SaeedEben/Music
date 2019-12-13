@@ -9,7 +9,7 @@ use App\Http\Resources\Music\Album\AlbumIndexResource;
 use App\Http\Resources\Music\Album\AlbumShowResource;
 use App\Models\Music\Album;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\Response;use test\Mockery\MagicParams;
 
 class AlbumController extends Controller
 {
@@ -20,9 +20,10 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        $album = Album::paginate();
-
-        return AlbumIndexResource::collection($album);
+        $pure_data = Album::paginate();
+        $obj = AlbumIndexResource::collection($pure_data)->resource;
+        $albums = json_decode(json_encode($obj))->data;
+        return view('music/album/albumindex' , compact('albums'));
     }
 
     /**
@@ -30,7 +31,7 @@ class AlbumController extends Controller
      *
      * @param StoreAlbumRequest $request
      *
-     * @return Response|array
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|array
      */
     public function store(StoreAlbumRequest $request)
     {
@@ -49,10 +50,7 @@ class AlbumController extends Controller
 
             \DB::commit();
 
-            return [
-                'success' => true,
-                'message' => trans('responses.panel.music.message.store'),
-            ];
+            return redirect('music/album');
 
         }catch(\Exception $exception){
             \DB::rollBack();
@@ -73,7 +71,8 @@ class AlbumController extends Controller
      */
     public function show(Album $album)
     {
-        return new AlbumShowResource($album);
+        $album = new AlbumShowResource($album);
+        return view('music.album.showalbum' , compact('album'));
     }
 
     /**
@@ -82,7 +81,7 @@ class AlbumController extends Controller
      * @param UpdateAlbumRequest $request
      * @param Album              $album
      *
-     * @return array
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|array
      */
     public function update(UpdateAlbumRequest $request, Album $album)
     {
@@ -99,10 +98,7 @@ class AlbumController extends Controller
 
             \DB::commit();
 
-            return [
-                'success' => true,
-                'message' => trans('responses.panel.music.message.update'),
-            ];
+            return redirect('music/album');
         }catch (\Exception $exception){
             \DB::rollBack();
             return [
@@ -118,7 +114,7 @@ class AlbumController extends Controller
      *
      * @param Album $album
      *
-     * @return Response|array
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|array
      * @throws \Exception
      */
     public function destroy(Album $album)
@@ -126,10 +122,7 @@ class AlbumController extends Controller
         try {
             $album->delete();
 
-            return [
-                'success' => true,
-                'message' => trans('responses.panel.music.message.delete'),
-            ];
+            return redirect('music/album');
         }catch (\Exception $exception){
             return [
                 'success' => false,
@@ -142,20 +135,17 @@ class AlbumController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param $id
+     * @param $request
      *
-     * @return Response|array
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|array
      */
-    public function restore($id)
+    public function restore(Request $request)
     {
 
         try {
-            Album::onlyTrashed()->findOrFail($id)->restore();
+            Album::onlyTrashed()->findOrFail($request->id)->restore();
 
-            return [
-                'success' => true,
-                'message' => trans('responses.panel.music.message.restore'),
-            ];
+            return redirect('music/album/list');
 
         }catch (\Exception $exception){
 
@@ -176,6 +166,12 @@ class AlbumController extends Controller
         $pure_data = Album::paginate();
         $obj = AlbumIndexResource::collection($pure_data)->resource;
         $albums = json_decode(json_encode($obj))->data;
-        return view('music.album.albumlist', compact('albums'));    }
+        return view('music.album.albumlist', compact('albums'));
+    }
+
+    public function edit(Album $album)
+    {
+        return view('music.album.update-album' , compact('album'));
+    }
 
 }
