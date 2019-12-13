@@ -18,9 +18,11 @@ use Spatie\Translatable\HasTranslations;
  *
  * @property int       $id
  *
+ * @property string    $name
  * @property \DateTime $release_at
  * @property Carbon    $duration
  * @property string    $lyric
+ * @property string    $music_path
  *
  * @property string    $image_path
  *
@@ -32,7 +34,7 @@ use Spatie\Translatable\HasTranslations;
  * @property int       $category_id
  * @property int       $album_id
  */
-class Song extends Model
+class  Song extends Model
 {
     protected $fillable = [
         'name',

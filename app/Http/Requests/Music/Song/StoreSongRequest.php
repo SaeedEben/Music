@@ -25,11 +25,13 @@ class StoreSongRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name' ,
+            'name',
             'duration' => 'required|format:i:s',
+            'lyric',
+            'release_at',
         ];
 
-        foreach (['en' , 'fa'] as $locale){
+        foreach (['en', 'fa'] as $locale) {
             $rules["name.{$locale}"] = 'required|min:3';
         }
 

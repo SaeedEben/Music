@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Panel\Music;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Music\Song\SongIndexResource;
 use App\Http\Resources\Music\Song\SongShowResource;
-use App\Models\Music\Song;
+use App\Models\Music\Category;use App\Models\Music\Genre;use App\Models\Music\Song;
 use Illuminate\Contracts\View\Factory;use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;use Illuminate\View\View;
@@ -21,13 +21,14 @@ class SongController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return AnonymousResourceCollection
+     * @return Factory|View
      */
     public function index()
     {
-        $song = Song::paginate();
-
-        return SongIndexResource::collection($song);
+        $pure_data = Song::paginate();
+        $obj = SongIndexResource::collection($pure_data)->resource;
+        $songs = json_decode(json_encode($obj))->data;
+        return view('music/song/songindex' , compact('songs'));
 
     }
 
@@ -36,10 +37,12 @@ class SongController extends Controller
      *
      * @param Request $request
      *
-     * @return array
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|array
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
+
         \DB::beginTransaction();
 
         try {
@@ -49,17 +52,20 @@ class SongController extends Controller
                 'fa' => $request->name['fa'],
             ];
             $song->setTranslations('name', $translations);
+            $esm = $request->file('songname')->getClientOriginalName();
+            $storage = storage_path("app/public/music/{$esm}");
+            $request->file('songname')->move('storage/musics' , $esm);
 
+            $song->music_path = $storage;
             $song->fill($request->all());
-            $song->category_id = $request->category_id;
-            $song->album_id    = $request->album_id;
+            $catid = explode('.' , $request->category);
+            $song->category_id = $catid[0];
+            $song->album_id    = 1;
             $song->save();
-
+            $genid = explode('.' , $request->genre);
+            $song->genres()->attach($genid[0]);
             \DB::commit();
-            return [
-                'success' => true,
-                'message' => trans('responses.panel.music.message.store'),
-            ];
+            return redirect('music/song');
         }catch (\Exception $exception){
             \DB::rollBack();
 
@@ -182,5 +188,12 @@ class SongController extends Controller
         $obj = SongIndexResource::collection($pure_data)->resource;
         $songs = json_decode(json_encode($obj))->data;
         return view('music.song.songlist', compact('songs'));
+    }
+
+    public function create()
+    {
+        $category = Category::all();
+        $genre = Genre::all();
+        return view('music.song.create-song' , compact('genre', 'category'));
     }
 }
